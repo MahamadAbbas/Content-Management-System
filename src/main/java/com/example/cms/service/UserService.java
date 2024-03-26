@@ -11,6 +11,6 @@ import jakarta.validation.Valid;
 
 public interface UserService {
 	
-	public ResponseEntity<ResponseStructure<UserResponse>> userRegistration(UserRequest userRequest);
+	public ResponseEntity<ResponseStructure<UserResponse>> userRegistration(UserRequest userRequest);   // saving/register user in database
 
 }
