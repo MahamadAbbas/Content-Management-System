@@ -1,5 +1,7 @@
 package com.example.cms.serviceimpl;
 
+import java.util.function.Supplier;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.cms.dto.UserRequest;
 import com.example.cms.dto.UserResponse;
 import com.example.cms.exception.UserAlreadyExistByEmailException;
+import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.model.User;
 import com.example.cms.repository.UserRepository;
 import com.example.cms.service.UserService;
@@ -46,6 +49,15 @@ public class UserServiceImpl implements UserService {
 		user.setUsername(userRequest.getUsername());
 		user.setEmail(userRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+		user.setDeleted(false);
 		return user;
+	}
+	
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> findUniqueUser(int userId) {
+		return userRepository.findById(userId)
+				.map(user -> ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+						.setMessage("User fetched Successfully").setData(mapToUserResponse(user))))
+				.orElseThrow(() -> new UserNotFoundByIdException("Invalid UserId"));
 	}
 }
