@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import com.example.cms.dto.UserRequest;
 import com.example.cms.dto.UserResponse;
 import com.example.cms.exception.UserAlreadyExistByEmailException;
+import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.model.User;
 import com.example.cms.repository.UserRepository;
 import com.example.cms.service.UserService;
 import com.example.cms.utility.ResponseStructure;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -46,6 +46,27 @@ public class UserServiceImpl implements UserService {
 		user.setUsername(userRequest.getUsername());
 		user.setEmail(userRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+		user.setDeleted(false);
 		return user;
+	}
+	
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> findUniqueUser(int userId) {
+		return userRepository.findById(userId)
+				.map(user -> ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+						.setMessage("User fetched Successfully").setData(mapToUserResponse(user))))
+				.orElseThrow(() -> new UserNotFoundByIdException("Invalid UserId"));
+	}
+	
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> softDeleteUser(int userId) {
+		
+		 return userRepository.findById(userId).map(user -> {
+	                	user.setDeleted(true);
+	                    userRepository.save(user);
+	                    return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+	                    		.setMessage("User with ID " + userId + " deleted successfully")
+	            				.setData(mapToUserResponse(user)));
+		 }).orElseThrow(() -> new UserNotFoundByIdException("Invalid UserId"));
 	}
 }
