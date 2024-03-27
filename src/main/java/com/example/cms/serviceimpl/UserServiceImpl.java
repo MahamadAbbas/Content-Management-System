@@ -1,5 +1,7 @@
 package com.example.cms.serviceimpl;
 
+import java.util.function.Supplier;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
 						.setMessage("User fetched Successfully").setData(mapToUserResponse(user))))
 				.orElseThrow(() -> new UserNotFoundByIdException("Invalid UserId"));
 	}
-	
+
 	@Override
 	public ResponseEntity<ResponseStructure<UserResponse>> softDeleteUser(int userId) {
 		

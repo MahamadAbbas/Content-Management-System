@@ -47,6 +47,4 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<UserResponse>> softDeleteUser(@PathVariable int userId){
 		return userService.softDeleteUser(userId);
 	}
-	
-	
 }
