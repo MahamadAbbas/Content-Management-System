@@ -38,7 +38,5 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 			UserNotFoundByIdException ex){
 				return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(),
 						"User NOT FOUND by given ID");
-		
 	}
-	
 }

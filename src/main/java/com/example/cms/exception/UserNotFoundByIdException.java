@@ -9,4 +9,5 @@ import lombok.Getter;
 public class UserNotFoundByIdException extends RuntimeException {
 	
 	private String message;
+  
 }
