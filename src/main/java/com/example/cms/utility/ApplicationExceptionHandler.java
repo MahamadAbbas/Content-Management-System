@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.example.cms.exception.BlogAlreadyExistByTitleException;
+import com.example.cms.exception.TopicNotSpecifiedException;
 import com.example.cms.exception.UserAlreadyExistByEmailException;
 import com.example.cms.exception.UserNotFoundByIdException;
 
@@ -30,13 +32,28 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 	public ResponseEntity<ErrorStructure<String>> handleUserAlreadyExistByEmail(
 			UserAlreadyExistByEmailException ex){
 		return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), 
-				"User Already exists with the given email ID");
+				"User already exists with the given email ID");
 	}
 	
 	@ExceptionHandler
 	public ResponseEntity<ErrorStructure<String>> handleUserNotFoundById(
 			UserNotFoundByIdException ex){
-				return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(),
+		return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(),
 						"User NOT FOUND by given ID");
 	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleBlogAlreadyExistByTitle(
+			BlogAlreadyExistByTitleException ex){
+		return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), 
+				"Blog already exists with the given Title");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleTopicNotSpecified(
+			TopicNotSpecifiedException ex){
+		return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), 
+				"Topic Not specified");
+	}
+	
 }

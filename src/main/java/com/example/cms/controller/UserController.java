@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cms.dto.BlogRequest;
+import com.example.cms.dto.BlogResponse;
 import com.example.cms.dto.UserRequest;
 import com.example.cms.dto.UserResponse;
 import com.example.cms.model.User;
+import com.example.cms.service.BlogService;
 import com.example.cms.service.UserService;
 import com.example.cms.utility.ResponseStructure;
 
@@ -46,7 +49,5 @@ public class UserController {
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<ResponseStructure<UserResponse>> softDeleteUser(@PathVariable int userId){
 		return userService.softDeleteUser(userId);
-	}
-	
-	
+	}	
 }

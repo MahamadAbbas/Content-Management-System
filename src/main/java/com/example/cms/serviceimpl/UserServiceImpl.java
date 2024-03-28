@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		user.setDeleted(false);
 		return user;
 	}
-	
+
 	@Override
 	public ResponseEntity<ResponseStructure<UserResponse>> findUniqueUser(int userId) {
 		return userRepository.findById(userId)
@@ -57,16 +57,16 @@ public class UserServiceImpl implements UserService {
 						.setMessage("User fetched Successfully").setData(mapToUserResponse(user))))
 				.orElseThrow(() -> new UserNotFoundByIdException("Invalid UserId"));
 	}
-	
+
 	@Override
 	public ResponseEntity<ResponseStructure<UserResponse>> softDeleteUser(int userId) {
-		
-		 return userRepository.findById(userId).map(user -> {
-	                	user.setDeleted(true);
-	                    userRepository.save(user);
-	                    return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
-	                    		.setMessage("User with ID " + userId + " deleted successfully")
-	            				.setData(mapToUserResponse(user)));
-		 }).orElseThrow(() -> new UserNotFoundByIdException("Invalid UserId"));
+
+		return userRepository.findById(userId).map(user -> {
+			user.setDeleted(true);
+			userRepository.save(user);
+			return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+					.setMessage("User with ID " + userId + " deleted successfully")
+					.setData(mapToUserResponse(user)));
+		}).orElseThrow(() -> new UserNotFoundByIdException("Invalid UserId"));
 	}
 }

@@ -1,54 +1,39 @@
 package com.example.cms.model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.Column;
+import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class Blog {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int userId;
+	private int blogId;
 	
-	private String username;
+	private String title;
 	
-	private String email;
+	private String[] topics;
 	
-	private String password;
-	
-	@CreatedDate
-	@Column(updatable = false)
-	private LocalDateTime createdAt;
-	
-	@LastModifiedDate
-	private LocalDateTime lastModifiedAt;
-	
-	private Boolean deleted;
-	
+	private String about;
 	
 	@ManyToMany
-	private List<Blog> listBlog = new ArrayList<Blog>();
+	private List<User> listUser = new ArrayList<User>();
 }
