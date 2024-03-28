@@ -10,4 +10,6 @@ public interface BlogService {
 
 	ResponseEntity<ResponseStructure<BlogResponse>> createBlog(BlogRequest blogRequest, int userId);
 
+	boolean checkForBlogTitleAvailability(String title);
+
 }

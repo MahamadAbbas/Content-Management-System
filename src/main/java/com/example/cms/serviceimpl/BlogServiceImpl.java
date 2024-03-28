@@ -56,4 +56,9 @@ public class BlogServiceImpl implements BlogService {
 		blog.setAbout(blogRequest.getAbout());
 		return blog;
 	}
+
+	@Override
+	public boolean checkForBlogTitleAvailability(String title) {
+		return blogRepository.existsByTitle(title);
+	}
 }
