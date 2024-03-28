@@ -70,4 +70,22 @@ public class BlogServiceImpl implements BlogService {
 						.setMessage("Blog fetched Successfully").setData(mapToBlogResponse(blog))))
 				.orElseThrow(() -> new BlogNotFoundByIdException("Invalid blogId"));
 	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<BlogResponse>> updateBlogData(int blogId, BlogRequest blogRequest) {
+		return blogRepository.findById(blogId).map(blog -> {
+			if (blogRepository.existsByTitle(blogRequest.getTitle()))
+				throw new BlogAlreadyExistByTitleException("Title Already Exists(Failed to create blog)");
+
+			if(blogRequest.getTopics().length<1)
+				throw new TopicNotSpecifiedException("Failed to create blog");
+			
+			blog.setTitle(blogRequest.getTitle());
+			blog.setTopics(blogRequest.getTopics());
+			blog.setAbout(blogRequest.getAbout());
+			Blog saveBlog = blogRepository.save(blog);
+			return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+					.setMessage("Blog Updated Successfully").setData(mapToBlogResponse(saveBlog)));
+		}).orElseThrow(() -> new BlogNotFoundByIdException("Invalid blogId (Failed to create blog)"));
+	}
 }

@@ -14,6 +14,8 @@ import com.example.cms.service.BlogService;
 import com.example.cms.utility.ResponseStructure;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @AllArgsConstructor
@@ -34,5 +36,10 @@ public class BlogController {
 	@GetMapping("/blogs/{blogId}")
 	public ResponseEntity<ResponseStructure<BlogResponse>> findBlogById(@PathVariable int blogId) {
 		return blogService.findBlogById(blogId);
+	}
+	
+	@PutMapping("/blogs/{blogId}")
+	public ResponseEntity<ResponseStructure<BlogResponse>> updateBlogData(@PathVariable int blogId, @RequestBody BlogRequest blogRequest) {
+		return blogService.updateBlogData(blogId,blogRequest);
 	}
 }
