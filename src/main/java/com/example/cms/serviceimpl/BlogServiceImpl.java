@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.cms.dto.BlogRequest;
 import com.example.cms.dto.BlogResponse;
 import com.example.cms.exception.BlogAlreadyExistByTitleException;
+import com.example.cms.exception.BlogNotFoundByIdException;
 import com.example.cms.exception.TopicNotSpecifiedException;
 import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.model.Blog;
@@ -32,10 +33,10 @@ public class BlogServiceImpl implements BlogService {
 		return userRepository.findById(userId).map(user -> {
 			if (blogRepository.existsByTitle(blogRequest.getTitle()))
 				throw new BlogAlreadyExistByTitleException("Title Already Exists(Failed to create blog)");
-			
+
 			if(blogRequest.getTopics().length<1)
 				throw new TopicNotSpecifiedException("Failed to create blog");
-			
+
 			Blog blog = mapToBlogEntity(blogRequest,new Blog());
 			blog.setListUser(Arrays.asList(user));
 			blogRepository.save(blog);
@@ -60,5 +61,13 @@ public class BlogServiceImpl implements BlogService {
 	@Override
 	public boolean checkForBlogTitleAvailability(String title) {
 		return blogRepository.existsByTitle(title);
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<BlogResponse>> findBlogById(int blogId) {
+		return blogRepository.findById(blogId)
+				.map(blog -> ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+						.setMessage("Blog fetched Successfully").setData(mapToBlogResponse(blog))))
+				.orElseThrow(() -> new BlogNotFoundByIdException("Invalid blogId"));
 	}
 }

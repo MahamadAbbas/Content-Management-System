@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.cms.exception.BlogAlreadyExistByTitleException;
+import com.example.cms.exception.BlogNotFoundByIdException;
 import com.example.cms.exception.TopicNotSpecifiedException;
 import com.example.cms.exception.UserAlreadyExistByEmailException;
 import com.example.cms.exception.UserNotFoundByIdException;
@@ -38,7 +39,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 	@ExceptionHandler
 	public ResponseEntity<ErrorStructure<String>> handleUserNotFoundById(
 			UserNotFoundByIdException ex){
-		return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(),
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(),
 						"User NOT FOUND by given ID");
 	}
 	
@@ -56,4 +57,10 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 				"Topic Not specified");
 	}
 	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleBlogNotFoundById(
+			BlogNotFoundByIdException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
+				"Blog NOT FOUND by given ID");
+	}
 }

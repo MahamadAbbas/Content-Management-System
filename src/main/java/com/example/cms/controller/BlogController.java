@@ -30,4 +30,9 @@ public class BlogController {
 	public boolean checkForBlogTitleAvailability(@PathVariable String title){
 		return blogService.checkForBlogTitleAvailability(title);
 	}
+	
+	@GetMapping("/blogs/{blogId}")
+	public ResponseEntity<ResponseStructure<BlogResponse>> findBlogById(@PathVariable int blogId) {
+		return blogService.findBlogById(blogId);
+	}
 }
