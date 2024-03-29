@@ -38,7 +38,7 @@ public class BlogServiceImpl implements BlogService {
 				throw new TopicNotSpecifiedException("Failed to create blog");
 
 			Blog blog = mapToBlogEntity(blogRequest,new Blog());
-			blog.setListUser(Arrays.asList(user));
+			blog.setUser(user);
 			blogRepository.save(blog);
 			return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value()).setMessage("Blog Created Successfully")
 					.setData(mapToBlogResponse(blog)));
@@ -47,7 +47,7 @@ public class BlogServiceImpl implements BlogService {
 
 	private BlogResponse mapToBlogResponse(Blog blog) {
 		return BlogResponse.builder().blogId(blog.getBlogId()).title(blog.getTitle()).topics(blog.getTopics())
-				.about(blog.getAbout()).listUser(blog.getListUser())
+				.about(blog.getAbout())
 				.build();
 	}
 

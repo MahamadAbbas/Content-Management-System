@@ -1,8 +1,6 @@
 package com.example.cms.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.cms.model.ContributionPanel;
 import com.example.cms.model.User;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +23,5 @@ public class BlogResponse {
 	private String[] topics;
 
 	private String about;
-	
-	private List<User> listUser = new ArrayList<User>();
 
 }
