@@ -14,7 +14,6 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -53,6 +52,4 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Blog> listBlog = new ArrayList<Blog>();
 	
-//	@ManyToMany
-//	private List<ContributionPanel> listContributionPanel = new ArrayList<ContributionPanel>();
 }

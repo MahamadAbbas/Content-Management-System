@@ -1,8 +1,5 @@
 package com.example.cms.dto;
 
-import com.example.cms.model.ContributionPanel;
-import com.example.cms.model.User;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

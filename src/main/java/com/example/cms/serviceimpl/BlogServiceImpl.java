@@ -1,7 +1,5 @@
 package com.example.cms.serviceimpl;
 
-import java.util.Arrays;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,9 @@ import com.example.cms.exception.BlogNotFoundByIdException;
 import com.example.cms.exception.TopicNotSpecifiedException;
 import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.model.Blog;
+import com.example.cms.model.ContributionPanel;
 import com.example.cms.repository.BlogRepository;
+import com.example.cms.repository.ContributionPanelRepository;
 import com.example.cms.repository.UserRepository;
 import com.example.cms.service.BlogService;
 import com.example.cms.utility.ResponseStructure;
@@ -27,6 +27,7 @@ public class BlogServiceImpl implements BlogService {
 	private BlogRepository blogRepository;
 	private ResponseStructure<BlogResponse> structure;
 	private UserRepository userRepository;
+	private ContributionPanelRepository contributionPanelRepository;
 
 	@Override
 	public ResponseEntity<ResponseStructure<BlogResponse>> createBlog(BlogRequest blogRequest, int userId) {
@@ -38,8 +39,10 @@ public class BlogServiceImpl implements BlogService {
 				throw new TopicNotSpecifiedException("Failed to create blog");
 
 			Blog blog = mapToBlogEntity(blogRequest,new Blog());
+			ContributionPanel panel = contributionPanelRepository.save(new ContributionPanel());
+			blog.setContributionPanel(panel);
 			blog.setUser(user);
-			blogRepository.save(blog);
+			blog = blogRepository.save(blog);
 			return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value()).setMessage("Blog Created Successfully")
 					.setData(mapToBlogResponse(blog)));
 		}).orElseThrow(() -> new UserNotFoundByIdException("User ID NOT Found(Failed to create blog)"));
