@@ -9,4 +9,7 @@ public interface ContributionPanelService {
 
 	ResponseEntity<ResponseStructure<ContributionPanelResponse>> addContributors(int userId, int panelId);
 
+	ResponseEntity<ResponseStructure<ContributionPanelResponse>> removeUserFromContributionPanel(int userId,
+			int panelId);
+
 }

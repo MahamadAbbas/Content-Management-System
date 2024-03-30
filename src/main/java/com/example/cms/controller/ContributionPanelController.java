@@ -9,6 +9,7 @@ import com.example.cms.utility.ResponseStructure;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
@@ -21,5 +22,10 @@ public class ContributionPanelController {
 	@PutMapping("/users/{userId}/contribution-panels/{panelId}")
 	public ResponseEntity<ResponseStructure<ContributionPanelResponse>> addContributors(@PathVariable int userId, @PathVariable int panelId) {
 		return contributionPanelService.addContributors(userId,panelId);
+	}
+	
+	@DeleteMapping("/users/{userId}/contribution-panels/{panelId}")
+	public ResponseEntity<ResponseStructure<ContributionPanelResponse>> removeUserFromContributionPanel(@PathVariable int userId, @PathVariable int panelId){
+		return contributionPanelService.removeUserFromContributionPanel(userId,panelId);
 	}
 }

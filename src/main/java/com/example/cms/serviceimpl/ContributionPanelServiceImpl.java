@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class ContributionPanelServiceImpl implements ContributionPanelService {
-	
+
 	private UserRepository userRepository;
 	private ContributionPanelRepository contributionPanelRepository;
 	private BlogRepository blogRepository;
@@ -30,25 +30,45 @@ public class ContributionPanelServiceImpl implements ContributionPanelService {
 
 	@Override
 	public ResponseEntity<ResponseStructure<ContributionPanelResponse>> addContributors(int userId, int panelId) {
-		
+
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		
+
 		return userRepository.findByEmail(email).map(owner ->{
 			return contributionPanelRepository.findById(panelId).map(panel ->{
 				if(!blogRepository.existsByUserAndContributionPanel(owner, panel))
 					throw new IllegalAccessRequestException("Failed to add Contribution");
 				return userRepository.findById(userId).map(contributor -> {
+//					if(!panel.getListUser().contains(contributor) && panel.getListUser().contains(owner))
 					panel.getListUser().add(contributor);
 					contributionPanelRepository.save(panel);
 					return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value()).setMessage("Contribution added Successfully")
 							.setData(mapToContributionPanelResponse(panel)));
-					}).orElseThrow(() -> new UserNotFoundByIdException("Invalid userId"));
-				}).orElseThrow(() -> new PanelNotFoundByIdException("Invalid panelId"));
-			}).get();
-		}
+				}).orElseThrow(() -> new UserNotFoundByIdException("User Not Found BY ID"));
+			}).orElseThrow(() -> new PanelNotFoundByIdException("Panel Not Found By ID"));
+		}).get();
+	}
 
 	private ContributionPanelResponse mapToContributionPanelResponse(ContributionPanel panel) {
 		return ContributionPanelResponse.builder().panelId(panel.getPanelId())
 				.build();
-		}
 	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<ContributionPanelResponse>> removeUserFromContributionPanel(int userId,
+			int panelId) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return userRepository.findByEmail(email).map(owner ->{
+			return contributionPanelRepository.findById(panelId).map(panel ->{
+				if(!blogRepository.existsByUserAndContributionPanel(owner, panel))
+					throw new IllegalAccessRequestException("Failed to add Contribution");
+				return userRepository.findById(userId).map(contributor -> {
+					panel.getListUser().remove(contributor);
+				    contributionPanelRepository.save(panel);
+					return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value()).setMessage(" Removed user from Contribution panel Successfully")
+							.setData(mapToContributionPanelResponse(panel)));
+				}).orElseThrow(() -> new UserNotFoundByIdException("User Not Found BY ID"));
+			}).orElseThrow(() -> new PanelNotFoundByIdException("Panel Not Found By ID"));
+		}).get();
+	}
+}
