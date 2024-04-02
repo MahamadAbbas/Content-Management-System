@@ -9,6 +9,7 @@ import com.example.cms.dto.BlogPostRequest;
 import com.example.cms.dto.BlogPostResponse;
 import com.example.cms.enums.PostType;
 import com.example.cms.exception.BlogNotFoundByIdException;
+import com.example.cms.exception.BlogPostNotFoundByIdException;
 import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.model.BlogPost;
 import com.example.cms.repository.BlogPostRepository;
@@ -66,4 +67,13 @@ public class BlogPostServiceImpl implements BlogPostService{
 		return blogPost;
 	}
 
+	@Override
+	public ResponseEntity<ResponseStructure<BlogPostResponse>> updateDraft(int postId,
+			BlogPostRequest blogPostRequest) {
+		return blogPostRepository.findById(postId).map(blogPost -> {
+			return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+					.setMessage("Draft Updated Successfully")
+					.setData(mapToBlogPostResponse(blogPostRepository.save(mapToBlogPostEntity(blogPostRequest, blogPost)))));
+		}).orElseThrow(() -> new BlogPostNotFoundByIdException("Invalid Input"));
+	}
 }

@@ -11,6 +11,8 @@ import com.example.cms.dto.BlogPostResponse;
 import com.example.cms.service.BlogPostService;
 import com.example.cms.utility.ResponseStructure;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @AllArgsConstructor
@@ -21,6 +23,11 @@ public class BlogPostController {
 	@PostMapping("/blogs/{blogId}/blog-posts")
 	public ResponseEntity<ResponseStructure<BlogPostResponse>> createDraft(@RequestBody BlogPostRequest blogPostRequest , @PathVariable int blogId){
 		return blogPostService.createDraft(blogPostRequest, blogId);
+	}
+	
+	@PutMapping("/blog-posts/{postId}")
+	public ResponseEntity<ResponseStructure<BlogPostResponse>> updateDraft(@PathVariable int postId, @RequestBody BlogPostRequest blogPostRequest) {
+		return blogPostService.updateDraft(postId, blogPostRequest);
 	}
 
 }

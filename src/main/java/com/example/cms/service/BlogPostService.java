@@ -10,4 +10,6 @@ public interface BlogPostService {
 
 	ResponseEntity<ResponseStructure<BlogPostResponse>> createDraft(BlogPostRequest blogPostRequest, int blogId);
 
+	ResponseEntity<ResponseStructure<BlogPostResponse>> updateDraft(int postId, BlogPostRequest blogPostRequest);
+
 }

@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.example.cms.exception.BlogAlreadyExistByTitleException;
 import com.example.cms.exception.BlogNotFoundByIdException;
 import com.example.cms.exception.BlogPostAlreadyExistsByTitleException;
+import com.example.cms.exception.BlogPostNotFoundByIdException;
 import com.example.cms.exception.IllegalAccessRequestException;
 import com.example.cms.exception.PanelNotFoundByIdException;
 import com.example.cms.exception.TopicNotSpecifiedException;
@@ -86,5 +87,12 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 			BlogPostAlreadyExistsByTitleException ex){
 		return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), 
 				"BlogPost already exists with the given Title");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleBlogPostNotFoundById(
+			BlogPostNotFoundByIdException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
+				"BlogPost NOT FOUND by given ID");
 	}
 }
