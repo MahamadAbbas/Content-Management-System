@@ -42,6 +42,6 @@ public class Blog {
 	private ContributionPanel contributionPanel;
 	
 	@OneToMany(mappedBy = "blog")
-	private List<BlogPost> listBlogPost = new ArrayList<BlogPost>();
+	private List<BlogPost> listBlogPost = new ArrayList<BlogPost>();	
 		
 }
