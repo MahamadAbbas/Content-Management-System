@@ -38,11 +38,11 @@ public class ContributionPanelServiceImpl implements ContributionPanelService {
 				if(!blogRepository.existsByUserAndContributionPanel(owner, panel))
 					throw new IllegalAccessRequestException("Failed to add Contribution");
 				return userRepository.findById(userId).map(contributor -> {
-//					if(!panel.getListUser().contains(contributor) && panel.getListUser().contains(owner))
-					panel.getListUser().add(contributor);
-					contributionPanelRepository.save(panel);
+					if(!panel.getContributors().contains(contributor) && panel.getContributors().contains(owner))
+					panel.getContributors().add(contributor);
+					ContributionPanel panel2 = contributionPanelRepository.save(panel);
 					return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value()).setMessage("Contribution added Successfully")
-							.setData(mapToContributionPanelResponse(panel)));
+							.setData(mapToContributionPanelResponse(panel2)));
 				}).orElseThrow(() -> new UserNotFoundByIdException("User Not Found BY ID"));
 			}).orElseThrow(() -> new PanelNotFoundByIdException("Panel Not Found By ID"));
 		}).get();
@@ -63,10 +63,10 @@ public class ContributionPanelServiceImpl implements ContributionPanelService {
 				if(!blogRepository.existsByUserAndContributionPanel(owner, panel))
 					throw new IllegalAccessRequestException("Failed to add Contribution");
 				return userRepository.findById(userId).map(contributor -> {
-					panel.getListUser().remove(contributor);
-				    contributionPanelRepository.save(panel);
+					panel.getContributors().remove(contributor);
+				    ContributionPanel panel2 = contributionPanelRepository.save(panel);
 					return ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value()).setMessage(" Removed user from Contribution panel Successfully")
-							.setData(mapToContributionPanelResponse(panel)));
+							.setData(mapToContributionPanelResponse(panel2)));
 				}).orElseThrow(() -> new UserNotFoundByIdException("User Not Found BY ID"));
 			}).orElseThrow(() -> new PanelNotFoundByIdException("Panel Not Found By ID"));
 		}).get();

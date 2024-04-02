@@ -24,12 +24,14 @@ public class BlogPostResponse {
 
 	private String summary;
 
-	private PostType postType;
+	private PostType postType; 
 
-	private String seoTitle;
+	private LocalDateTime createdAt;
 
-	private String seoDescription;
+	private LocalDateTime lastModifiedAt;
 
-	private String[] seoTopics;
+	private String createdBy;
+
+	private String lastModifiedBy;
 
 }

@@ -15,7 +15,6 @@ import com.example.cms.utility.ResponseStructure;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 @RestController
 @AllArgsConstructor
 public class BlogController {

@@ -1,5 +1,10 @@
 package com.example.cms.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.cms.model.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,4 +20,5 @@ public class ContributionPanelResponse {
 	
 	private int panelId;
 
+	private List<User> contributors = new ArrayList<User>();
 }

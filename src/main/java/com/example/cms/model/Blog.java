@@ -1,5 +1,8 @@
 package com.example.cms.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Entity;
@@ -8,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,4 +41,7 @@ public class Blog {
 	@OneToOne
 	private ContributionPanel contributionPanel;
 	
+	@OneToMany(mappedBy = "blog")
+	private List<BlogPost> listBlogPost = new ArrayList<BlogPost>();
+		
 }
