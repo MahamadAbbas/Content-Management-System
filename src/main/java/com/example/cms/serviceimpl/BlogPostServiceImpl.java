@@ -39,7 +39,7 @@ public class BlogPostServiceImpl implements BlogPostService{
 		return userRepository.findByEmail(email).map(user -> {
 			return blogRepository.findById(blogId).map(blog -> {
 				if(!blog.getUser().getEmail().equals(email) && 
-						contributionPanelRepository.existsByPanelIdAndContributors(blog.getContributionPanel().getPanelId(),user))
+						!contributionPanelRepository.existsByPanelIdAndContributors(blog.getContributionPanel().getPanelId(),user))
 					throw new UserNotFoundByIdException("Invalid Input");
 				BlogPost blogPost2 = mapToBlogPostEntity(blogPostRequest, new BlogPost());
 				blogPost2.setBlog(blog);

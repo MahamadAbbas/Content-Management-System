@@ -33,5 +33,7 @@ public class BlogPostResponse {
 	private String createdBy;
 
 	private String lastModifiedBy;
+	
+	private PublishResponse publishResponse;
 
 }
